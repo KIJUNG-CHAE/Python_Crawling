@@ -1,17 +1,17 @@
 import requests
 from bs4 import BeautifulSoup
 
-
-LIMIT = 50
 URL = "http://www.busanit.or.kr/board/list.asp?bcode=notice_e&sword=&search_txt=&ipage="
 
 def extract_busanit(html,num):
+    index = list(html.find_all("td",recursive = False))[0].string
     title = html.find("td",{"class":"subject"}).find('a')["title"].strip()
     rate = list(html.find_all("td",recursive = False))[2].string
     view = list(html.find_all("td",recursive = False))[3].string
     link = html.find("td",{"class":"subject"}).find('a')["href"]
     num = num
     return {
+        "index":index,
         "title":title,
         "rate":rate.replace("-","."),
         "view":view,
@@ -51,5 +51,5 @@ def get_busanits():
     
 #  return
 
-#busanits = get_busanits()
+# busanits = get_busanits()
 #save_to_file(busanits)

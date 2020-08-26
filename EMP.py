@@ -14,12 +14,13 @@ URL = f"https://cse.pusan.ac.kr/cse/14667/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJ
 #  last_page = links[-2].get_text(strip=True)
 #  return int(last_page)
 
-def extract(html, html2, num):
+def extract(html, html2, html3, num):
     
     title = html.find("strong").string
     link = html.find("a")["href"]
     date = html2.string
-    return {"title": title,"date": date, "link": f"http://cse.pusan.ac.kr{link}", "num": num}
+    index = html3.string
+    return {"index": index,"title": title,"date": date, "link": f"http://cse.pusan.ac.kr{link}", "num": num}
 
 def extracts():
   emps = []
@@ -38,7 +39,8 @@ def extracts():
    i = 0
    for result3 in results3:
       if result3.string != None:
-        emp = extract(results[i], results2[i], num)
+        emp = extract(results[i], results2[i], result3, num)
+        print(emp)
         emps.append(emp)
         num += 1
  
@@ -50,3 +52,5 @@ def get_emps():
   #last_page = get_last_pages()
   emps = extracts()
   return emps
+
+# emps = get_emps()

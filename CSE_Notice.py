@@ -2,17 +2,19 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-LIMIT = 50
 URL1 = f"https://cse.pusan.ac.kr/cse/14651/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGY3NlJTJGMjYwNSUyRmFydGNsTGlzdC5kbyUzRmJic09wZW5XcmRTZXElM0QlMjZpc1ZpZXdNaW5lJTNEZmFsc2UlMjZzcmNoQ29sdW1uJTNEJTI2cGFnZSUzRD"
 URL2 = f"lMjZzcmNoV3JkJTNEJTI2cmdzQmduZGVTdHIlM0QlMjZiYnNDbFNlcSUzRCUyNnJnc0VuZGRlU3RyJTNEJTI2"
 
 def extract_notice(html, num):
+    index = html.find("td",{"class":"_artclTdNum"}).string
     title = html.find("td",{"class":"_artclTdTitle"}).find('a').find("strong").string 
     rate = html.find("td",{"class":"_artclTdRdate"}).string.strip()
     file = html.find("td",{"class":"_artclTdAtchFile"}).string.strip()
     link = html.find("td",{"class":"_artclTdTitle"}).find('a')["href"]
-    num = num
+    # num = num
+    
     return {
+        "index":index,
         "title":title,
         "rate":rate,
         "file":file,
@@ -34,6 +36,7 @@ def extract_notices():
         for result in results:
             if result.find("td",{"class":"_artclTdNum"}).string != None:
                 notice = extract_notice(result, i)
+                print(notice)
                 notices.append(notice)
                 i+=1
     
@@ -54,5 +57,5 @@ def get_notices():
     
 #  return
 
-#notices = get_notices()
+# notices = get_notices()
 #save_to_file(notices)
