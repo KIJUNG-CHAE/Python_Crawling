@@ -1,5 +1,7 @@
 import requests 
 from bs4 import BeautifulSoup 
+from pymongo import MongoClient
+
 pageChar = 100
 
 
@@ -40,7 +42,6 @@ def extracts():
    for result3 in results3:
       if result3.string != None:
         emp = extract(results[i], results2[i], result3, num)
-        print(emp)
         emps.append(emp)
         num += 1
  
@@ -52,5 +53,13 @@ def get_emps():
   #last_page = get_last_pages()
   emps = extracts()
   return emps
+
+def save_emp_db():
+    connection = MongoClient('localhost', 27017)
+    db = connection.crawling_db
+    collection = db.emp_collection
+    for emp in get_emps():
+        x = collection.update(emp, emp, upsert = True)
+        print(x)
 
 # emps = get_emps()

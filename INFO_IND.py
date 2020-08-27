@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from pymongo import MongoClient
 
 URL = "http://www.busanit.or.kr/board/list.asp?bcode=notice_e&sword=&search_txt=&ipage="
 
@@ -40,6 +41,14 @@ def extract_busanits():
 def get_busanits():
   busanits = extract_busanits()
   return busanits
+
+def save_ind_db():
+    connection = MongoClient('localhost', 27017)
+    db = connection.crawling_db
+    collection = db.ind_collection
+    for ind in get_busanits():
+        x = collection.update(ind, ind, upsert = True)
+        print(x)
 
 #def save_to_file(busanits):
 #  file = open("busanit.csv", mode = 'w',encoding = "UTF-8-sig")

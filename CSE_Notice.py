@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-import csv
+from pymongo import MongoClient
+# import csv
 
 URL1 = f"https://cse.pusan.ac.kr/cse/14651/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGY3NlJTJGMjYwNSUyRmFydGNsTGlzdC5kbyUzRmJic09wZW5XcmRTZXElM0QlMjZpc1ZpZXdNaW5lJTNEZmFsc2UlMjZzcmNoQ29sdW1uJTNEJTI2cGFnZSUzRD"
 URL2 = f"lMjZzcmNoV3JkJTNEJTI2cmdzQmduZGVTdHIlM0QlMjZiYnNDbFNlcSUzRCUyNnJnc0VuZGRlU3RyJTNEJTI2"
@@ -36,7 +37,6 @@ def extract_notices():
         for result in results:
             if result.find("td",{"class":"_artclTdNum"}).string != None:
                 notice = extract_notice(result, i)
-                print(notice)
                 notices.append(notice)
                 i+=1
     
@@ -46,6 +46,15 @@ def extract_notices():
 def get_notices():
   notices = extract_notices()
   return notices
+
+def save_cse_db():
+    connection = MongoClient('localhost', 27017)
+    db = connection.crawling_db
+    collection = db.cse_collection
+    for notice in get_notices():
+        x = collection.update(notice, notice, upsert = True)
+        print(x)
+
 
 #def save_to_file(notices):
 #  file = open("notice.csv", mode = 'w',encoding = "CP949")
@@ -57,5 +66,7 @@ def get_notices():
     
 #  return
 
-# notices = get_notices()
+
+
+
 #save_to_file(notices)
