@@ -8,14 +8,12 @@ def extract_busanit(html,num):
     index = list(html.find_all("td",recursive = False))[0].string
     title = html.find("td",{"class":"subject"}).find('a')["title"].strip()
     rate = list(html.find_all("td",recursive = False))[2].string
-    view = list(html.find_all("td",recursive = False))[3].string
     link = html.find("td",{"class":"subject"}).find('a')["href"]
     num = num
     return {
         "index":index,
         "title":title,
         "rate":rate.replace("-","."),
-        "view":view,
         "link":f"http://www.busanit.or.kr/board/{link}",
         "num":num
     }
@@ -24,7 +22,7 @@ def extract_busanit(html,num):
 def extract_busanits():
     busanits = []
     
-    for page in range(1):
+    for page in range(5):
         
         print(f"Scrapping busanit : Page:{page+1}")
         result = requests.get(f"{URL}{page + 1}")

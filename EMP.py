@@ -28,7 +28,7 @@ def extracts():
   emps = []
   pageChar = 65
   
-  for page in range(1):
+  for page in range(5):
    pageChar += 4
    print(f"Scrapping emp {page+1} page")
    result = requests.get(f"https://cse.pusan.ac.kr/cse/14667/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGY3NlJTJGMjYxNiUyRmFydGNsTGlzdC5kbyUzRmJic09wZW5XcmRTZXElM0QlMjZpc1ZpZXdNaW5lJTNEZmFsc2UlMjZzcmNoQ29sdW1uJTNEJTI2cGFnZSUzRD{chr(pageChar)}lMjZzcmNoV3JkJTNEJTI2cmdzQmduZGVTdHIlM0QlMjZiYnNDbFNlcSUzRCUyNnJn")

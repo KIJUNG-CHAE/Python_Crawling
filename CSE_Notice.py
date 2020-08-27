@@ -27,9 +27,9 @@ def extract_notice(html, num):
 def extract_notices():
     notices = []
     
-    for page in range(1):
+    for page in range(5):
         page_alphabet = chr(69 + page*4)
-        print(f"Scrapping Notice : Page:{page}")
+        print(f"Scrapping Notice : Page:{page+1}")
         result = requests.get(f"{URL1}{page_alphabet}{URL2}")
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find("table",{"class":"artclTable artclHorNum1"}).find("tbody").find_all("tr")
@@ -54,7 +54,6 @@ def save_cse_db():
     for notice in get_notices():
         x = collection.update(notice, notice, upsert = True)
         print(x)
-
 
 #def save_to_file(notices):
 #  file = open("notice.csv", mode = 'w',encoding = "CP949")
